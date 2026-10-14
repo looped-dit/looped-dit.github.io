@@ -1,0 +1,61 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:08.700
+Looped Diffusion Transformer
+
+2
+00:00:08.700 --> 00:00:24.033
+Three ways to add computation
+
+3
+00:00:24.033 --> 00:00:42.167
+How looping works
+
+4
+00:00:42.167 --> 00:00:59.033
+Why naive looping falls short
+
+5
+00:00:59.033 --> 00:01:22.333
+Deep supervision
+
+6
+00:01:22.333 --> 00:02:02.000
+Self-modulating attention
+
+7
+00:02:02.000 --> 00:02:33.567
+What XSA changes
+
+8
+00:02:33.567 --> 00:02:50.400
+Does looping work?
+
+9
+00:02:50.400 --> 00:03:03.067
+Looping versus larger models
+
+10
+00:03:03.067 --> 00:03:17.367
+Looping versus denoising steps
+
+11
+00:03:17.367 --> 00:03:45.833
+Visual reasoning in hidden states
+
+12
+00:03:45.833 --> 00:04:00.667
+Looping and chain of thought
+
+13
+00:04:00.667 --> 00:04:25.833
+Main benchmark results
+
+14
+00:04:25.833 --> 00:04:42.767
+Limitations
+
+15
+00:04:42.767 --> 00:04:57.800
+Paper, code, and models

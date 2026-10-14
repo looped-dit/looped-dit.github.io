@@ -1,0 +1,137 @@
+WEBVTT
+
+1
+00:00:01.000 --> 00:00:07.288
+Looped Diffusion Transformer. Just loop it! More depth, not more parameters.
+
+2
+00:00:09.500 --> 00:00:12.585
+To improve text-to-image models, we usually make them bigger,
+
+3
+00:00:13.100 --> 00:00:14.938
+or run more denoising steps.
+
+4
+00:00:15.700 --> 00:00:22.637
+In language modeling, a third knob has been widely studied: looping, which adds depth without adding parameters.
+
+5
+00:00:24.833 --> 00:00:33.516
+The idea: split a diffusion transformer into three stages, and run the middle stage again and again, inside each denoising step.
+
+6
+00:00:34.033 --> 00:00:40.861
+Every loop reuses the same weights, so effective depth grows with each loop, while the parameter count stays fixed.
+
+7
+00:00:42.967 --> 00:00:51.102
+But naive looping falls short. Its PRISM accuracy saturates at the trained depth, only matching the non-looped model, then declines.
+
+8
+00:00:53.667 --> 00:00:58.575
+Only the final loop is supervised, so intermediate loops get no direct training signal.
+
+9
+00:00:59.383 --> 00:01:12.801
+We fix this with deep supervision, giving every loop its own training signal. During training, each loop's output is decoded and compared with the same clean image. These extra losses add no inference cost.
+
+10
+00:01:14.333 --> 00:01:21.031
+Deep supervision improves every loop depth, even when stopping early, and stays stable beyond the depth it was trained with.
+
+11
+00:01:23.133 --> 00:01:32.960
+Repeated attention updates can overwrite useful information. Self-modulating attention applies a gate to each head's output, computed from the current state at every loop.
+
+12
+00:01:34.733 --> 00:01:45.454
+We explore two possible instantiations. In gated attention, G is an explicit gate: a scalar between zero and one, computed from the current state with learned weights.
+
+13
+00:01:46.033 --> 00:01:55.030
+In exclusive self-attention, or XSA, G is an implicit gate: a projection that removes the component along the token's own value direction.
+
+14
+00:01:56.433 --> 00:02:00.605
+Both gate designs helped, but XSA worked better, so we adopt it.
+
+15
+00:02:02.800 --> 00:02:08.248
+Here is an example with XSA. The colors show how strongly attention writes at each loop.
+
+16
+00:02:10.200 --> 00:02:20.484
+Without XSA, later loops keep writing: they edit an already correct image, and add a fifth balloon. With XSA, later loops write little, and the four balloons stay.
+
+17
+00:02:22.600 --> 00:02:32.168
+XSA helps most when the model loops: it adds one point six to the looped model, but less than one point to non-looped models with the same parameters or compute.
+
+18
+00:02:34.367 --> 00:02:37.287
+Does looping work? At the same model size,
+
+19
+00:02:37.767 --> 00:02:48.807
+Looped DiT gains about four points, averaged over four benchmarks. Naive looping alone adds one; with deep supervision and XSA, looping delivers the rest.
+
+20
+00:02:51.200 --> 00:03:01.454
+Should we loop, or build a bigger model? At matched inference compute, Looped DiT beats both a deeper and a wider model, with roughly half the parameters.
+
+21
+00:03:03.867 --> 00:03:09.157
+At inference, with the same compute per image, should we loop more, or denoise more?
+
+22
+00:03:10.267 --> 00:03:15.552
+At every tested budget, and on all four benchmarks, spending it on loop depth wins.
+
+23
+00:03:18.167 --> 00:03:26.512
+What behaviors does looping unlock? Across loops, the model fixes its own mistakes, behavior suggestive of latent reasoning.
+
+24
+00:03:26.967 --> 00:03:32.132
+By the fourth loop, the misspelled truck logo is corrected, while the baselines still get it wrong.
+
+25
+00:03:32.967 --> 00:03:37.413
+Here, loops rearrange the room to satisfy several constraints at once.
+
+26
+00:03:38.167 --> 00:03:44.228
+And here, a missing bowl is added, then an extra one removed, until there are exactly five.
+
+27
+00:03:46.633 --> 00:03:53.912
+Is looping complementary to chain-of-thought prompt rewriting? Looping helps most where constraints must be satisfied together,
+
+28
+00:03:54.333 --> 00:03:58.659
+chain of thought helps where content must be inferred, and together they score best.
+
+29
+00:04:01.467 --> 00:04:10.682
+For the main results, our B sixteen variant, the same size with finer image patches, reaches the best six-benchmark average among the models we compare.
+
+30
+00:04:11.267 --> 00:04:17.945
+Against the next best, that's six and a half times fewer parameters, and almost five times less inference compute.
+
+31
+00:04:18.667 --> 00:04:24.244
+Varying loops and steps gives the best trade-offs between quality and inference compute among the models shown.
+
+32
+00:04:26.633 --> 00:04:40.980
+Our looped models use around two hundred sixty million parameters and generate in pixel space. Evidence for visual reasoning is mainly behavioral and representational. Larger models and higher resolutions remain open directions.
+
+33
+00:04:43.567 --> 00:04:49.191
+Loop depth: a third knob for text-to-image models. Same parameters, better performance.
+
+34
+00:04:49.767 --> 00:04:55.612
+The paper, code and models are all open-sourced, on arXiv, GitHub and Hugging Face.
