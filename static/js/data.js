@@ -73,16 +73,17 @@ window.LD = {
     { name: 'Looped-DiT B/32', sub: 'ours', train: 1246, infer: 267, params: 260, depth: 32, dim: 768, ds: true, loop: true, avg: 59.1, ours: true }
   ],
 
-  /* Fig. 6: loop depth vs. extra denoising steps at matched inference FLOPs (B/32).
-     Steps per point: loop x4 at 25/35/50, loop x1 and non-looped at 50/70/100. */
+  /* Fig. 6: loop depth vs. extra denoising steps at matched inference FLOPs (B/32), Euler with time shift s = 3.
+     Steps per point: loop x4 at 13/18/25/35/50, loop x1 and non-looped at twice as many.
+     Source: results/data/denoise_shift3.csv (2026-10-19). */
   steps: {
-    budgets: ['~14', '~20', '~28'],
-    loop4Steps: [25, 35, 50], loop1Steps: [50, 70, 100],
-    DPG: { l4: [84.74, 85.2, 85.23], l1: [84.17, 84.36, 84.34], base: [83.44, 83.52, 83.65] },
-    PRISM: { l4: [53.4, 54.4, 54.4], l1: [51.8, 52.0, 52.0], base: [51.02, 51.12, 51.2] },
-    CoRe: { l4: [43.6, 44.1, 44.4], l1: [42.8, 42.8, 43.0], base: [40.48, 40.54, 40.6] },
-    Spatial: { l4: [51.6, 51.9, 52.1], l1: [50.5, 50.7, 51.2], base: [49.7, 49.88, 50.05] },
-    tflops: { l4: [13.42, 18.87, 27.1], l1: [14.27, 20.07, 28.81] }
+    budgets: ['7.5', '10', '14', '20', '28'],
+    loop4Steps: [13, 18, 25, 35, 50], loop1Steps: [26, 36, 50, 70, 100],
+    DPG: { l4: [85.02, 85.22, 85.47, 85.52, 85.63], l1: [84.39, 84.56, 84.63, 84.65, 84.66], base: [83.48, 83.6, 83.64, 83.82, 83.92] },
+    PRISM: { l4: [52.85, 53.0, 53.11, 53.26, 53.31], l1: [51.64, 51.65, 51.83, 51.99, 51.94], base: [50.34, 50.74, 50.81, 51.01, 51.04] },
+    CoRe: { l4: [43.37, 43.38, 43.52, 43.86, 43.86], l1: [42.3, 42.37, 42.53, 42.47, 42.59], base: [39.92, 40.14, 40.03, 40.13, 40.33] },
+    Spatial: { l4: [51.35, 51.53, 51.74, 51.68, 51.76], l1: [50.88, 50.9, 51.0, 51.07, 51.08], base: [50.1, 50.11, 50.16, 50.23, 50.4] },
+    tflops: { l4: [7.11, 9.78, 13.53, 18.87, 26.89], l1: [7.78, 10.71, 14.81, 20.66, 29.45] }
   },
 
   /* Table 3: gains over the non-looped model with original prompts (B/32) */

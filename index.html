@@ -18,7 +18,7 @@
 <link rel="preload" href="static/fonts/newsreader/newsreader-normal-500.woff" as="font" type="font/woff" crossorigin>
 <link rel="preload" href="static/fonts/jost/jost-italic-800-latin.woff" as="font" type="font/woff" crossorigin>
 <link rel="stylesheet" href="static/vendor/katex/katex.min.css">
-<link rel="stylesheet" href="static/css/style.css">
+<link rel="stylesheet" href="static/css/style.css?v=20261019">
 <script>
   try { var t = localStorage.getItem('ld-theme'); if (t === 'light' || t === 'dark') document.documentElement.setAttribute('data-theme', t); } catch (e) {}
 </script>
@@ -242,12 +242,12 @@
 <div class="experiment-lead">
 <div class="q-num">Q3</div>
 <h3>Does <span class="lp">looping</span> beat more denoising steps?</h3>
-<p class="q-ans"><b>Yes, with half the compute.</b> At every budget, extra loops beat extra denoising steps.</p>
-<div class="experiment-result q-stat"><strong data-to="2.1" data-post="×">2.1×</strong><span>less compute, as 4 loops × 25 steps beat 1 loop × 100 steps</span></div>
+<p class="q-ans"><b>Yes, with a quarter of the compute.</b> At every budget, extra loops beat extra denoising steps.</p>
+<div class="experiment-result q-stat"><strong data-to="4.1" data-post="×">4.1×</strong><span>less compute, as 4 loops × 13 steps beat 1 loop × 100 steps</span></div>
 </div>
 <div class="experiment-body">
 <div class="multiples" id="stepsMultiples"></div>
-<div class="legend"><span class="li"><i class="ln s-ours"></i>Looped-DiT, loop ×4</span><span class="li"><i class="ln s-naive"></i>Looped-DiT, loop ×1</span><span class="li"><i class="ln s-base"></i>Non-looped baseline</span><span class="li">Numbers on points are denoising steps</span></div>
+<div class="legend"><span class="li"><i class="ln s-ours"></i>Looped-DiT, loop ×4</span><span class="li"><i class="ln s-naive"></i>Looped-DiT, loop ×1</span><span class="li"><i class="ln s-base"></i>Non-looped baseline</span><span class="li">Numbers on points are denoising steps (time shift 3)</span></div>
 </div>
 </article>
 <article class="experiment q" id="q4">
@@ -414,9 +414,9 @@
 
 <script src="static/vendor/katex/katex.min.js"></script>
 <script src="static/vendor/katex/contrib/auto-render.min.js"></script>
-<script src="static/js/data.js"></script>
-<script src="static/js/gallery.js"></script>
-<script src="static/js/charts.js"></script>
-<script src="static/js/main.js"></script>
+<script src="static/js/data.js?v=20261019"></script>
+<script src="static/js/gallery.js?v=20261019"></script>
+<script src="static/js/charts.js?v=20261019"></script>
+<script src="static/js/main.js?v=20261019"></script>
 </body>
 </html>

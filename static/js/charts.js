@@ -51,13 +51,16 @@
            refs:[{y, label, cls}], vlines:[{x, label}], group, tipTitle:(xv)=>string, valueFmt } */
   // The chart is drawn at its on-screen width (1 unit = 1 px), so its text keeps the size set in the CSS.
   // o.w and o.h give the proportions; the height follows the width within a narrow range. Redrawn on resize.
+  // o.h may instead be a function of the on-screen width that returns the height.
   function lineChart(host, o) {
     host.classList.add('chart');
     const api = { el: host };
-    const W0 = o.w || 360, H0 = o.h || 236;
+    const hFn = typeof o.h === 'function' ? o.h : null;
+    const W0 = o.w || 360, H0 = hFn ? hFn(W0) : (o.h || 236);
     const size = () => {
       const cw = Math.round(host.clientWidth);
       if (!cw) return [W0, H0];
+      if (hFn) return [cw, Math.round(hFn(cw))];
       return [cw, Math.round(H0 * Math.min(1.15, Math.max(0.9, cw / W0)))];
     };
     let cur = size();

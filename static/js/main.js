@@ -1178,7 +1178,7 @@
   (function steps() {
     const box = $('#stepsMultiples');
     const S = D.steps, apis = [];
-    const yr = { DPG: [83.2, 85.6, [83.5, 84, 84.5, 85, 85.5]], PRISM: [50.6, 54.9, [51, 52, 53, 54]], CoRe: [40.1, 44.8, [41, 42, 43, 44]], Spatial: [49.3, 52.5, [50, 51, 52]] };
+    const yr = { DPG: [83.2, 85.9, [83.5, 84, 84.5, 85, 85.5]], PRISM: [50.0, 53.8, [50, 51, 52, 53]], CoRe: [39.5, 44.5, [40, 41, 42, 43, 44]], Spatial: [49.85, 52.0, [50, 50.5, 51, 51.5]] };
     ['DPG', 'PRISM', 'CoRe', 'Spatial'].forEach(k => {
       const cell = h('div', {});
       cell.appendChild(h('div', { class: 'mtitle' }, k === 'CoRe' ? 'T2I-CoReBench' : k === 'Spatial' ? 'SpatialGenEval' : k === 'DPG' ? 'DPG-Bench' : 'PRISM'));
@@ -1186,11 +1186,12 @@
       cell.appendChild(c);
       box.appendChild(cell);
       apis.push(C.lineChart(c, {
-        w: 250, h: 212, m: { l: 36, r: 10, t: 18, b: 40 },
-        x: { min: 12.6, max: 30.5, log: true, ticks: [14, 20, 28], values: S.tflops.l4, label: 'TFLOPs per image' },
-        y: { min: yr[k][0], max: yr[k][1], ticks: yr[k][2], fmt: v => k === 'DPG' ? v.toFixed(1) : String(v) },
+        // four across on wide screens: tall enough to fill the height of the question beside them
+        w: 250, h: cw => cw < 320 ? 300 : 244, m: { l: 36, r: 10, t: 18, b: 40 },
+        x: { min: 6.6, max: 31.5, log: true, ticks: [7, 10, 14, 20, 28], values: S.tflops.l4, label: 'TFLOPs per image' },
+        y: { min: yr[k][0], max: yr[k][1], ticks: yr[k][2], fmt: v => k === 'DPG' || k === 'Spatial' ? v.toFixed(1) : String(v) },
         group: 'steps',
-        tipTitle: (x, i) => `Budget ≈ ${['14', '20', '28'][i]} TFLOPs`,
+        tipTitle: (x, i) => `Budget ≈ ${S.budgets[i]} TFLOPs`,
         series: [
           { name: `Loop ×4`, cls: 's-ours', x: S.tflops.l4, y: S[k].l4, pointLabels: S.loop4Steps.map(String) },
           { name: `Loop ×1`, cls: 's-naive', x: S.tflops.l1, y: S[k].l1, pointLabels: S.loop1Steps.map(String) },
